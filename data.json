@@ -1,15 +1,14 @@
 [
   { "name": "Netflix", "amount": 499, "date": "2026-01-05", "category": "Entertainment", "usage": "low" },
-  { "name": "Netflix", "amount": 499, "date": "2026-02-05", "category": "Entertainment", "usage": "low" },
 
   { "name": "Spotify", "amount": 119, "date": "2026-01-07", "category": "Entertainment", "usage": "high" },
-  { "name": "Spotify", "amount": 119, "date": "2026-02-07", "category": "Entertainment", "usage": "high" },
+  
 
   { "name": "Amazon Prime", "amount": 299, "date": "2026-01-10", "category": "Shopping", "usage": "medium" },
-  { "name": "Amazon Prime", "amount": 299, "date": "2026-02-10", "category": "Shopping", "usage": "medium" },
+  
 
   { "name": "Gym", "amount": 800, "date": "2026-01-12", "category": "Health", "usage": "low" },
 
-  { "name": "YouTube Premium", "amount": 129, "date": "2026-01-15", "category": "Entertainment", "usage": "high" },
+  
   { "name": "YouTube Premium", "amount": 129, "date": "2026-02-15", "category": "Entertainment", "usage": "high" }
 ]
