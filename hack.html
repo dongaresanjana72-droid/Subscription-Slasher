@@ -1,37 +1,43 @@
 <!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Subscription Slasher Dashboard</title>
-</head>
-<body>
-
-<!DOCTYPE html>
 <html>
 <head>
-  <title>Subscription Dashboard</title>
+  <title>Smart Subscription Dashboard</title>
+
   <link rel="stylesheet" href="hack.css">
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 </head>
+
 <body>
 
-<h1> Subscription Slasher Dashboard</h1>
+  <h1>💰 Smart Subscription Dashboard</h1>
 
-<div class="card">
-  <h2>Total Monthly Cost: ₹<span id="total">0</span></h2>
-</div>
+  <!-- 🔥 TOP FULL WIDTH CARD -->
+  <div class="top-card">
+    <h2>Total Monthly Cost</h2>
+    <p id="total">₹0</p>
+  </div>
 
-<div class="card">
-  <h2>Subscriptions</h2>
-  <ul id="list"></ul>
-</div>
+  <!-- 🔥 3 CARDS IN ONE LINE -->
+  <div class="grid">
 
-<canvas id="chart"></canvas>
+    <div class="card">
+      <h2>Subscriptions</h2>
+      <ul id="list"></ul>
+    </div>
 
-<script src="script.js"></script>
+    <div class="card">
+      <h2>Smart Suggestions</h2>
+      <ul id="suggestions"></ul>
+    </div>
 
-</body>
-</html>
-    <script src="hack.js"></script>
+    <div class="card">
+      <h2>Expense Chart</h2>
+      <canvas id="myChart"></canvas>
+    </div>
+
+  </div>
+
+  <script src="hack.js"></script>
+
 </body>
 </html>
