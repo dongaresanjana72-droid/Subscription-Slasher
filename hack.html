@@ -1,41 +1,39 @@
 <!DOCTYPE html>
 <html>
 <head>
-  <title>Smart Subscription Dashboard</title>
-
+  <title>Premium Dashboard</title>
   <link rel="stylesheet" href="hack.css">
   <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 </head>
 
 <body>
 
-  <h1>💰 Smart Subscription Dashboard</h1>
+<h1>✨ Smart Subscription Dashboard</h1>
 
-  <div class="top-card">
-    <h2>Total Monthly Cost</h2>
-    <p id="total">₹0</p>
+<div class="top-card">
+  ₹ <span id="total">0</span>
+</div>
+
+<div class="grid">
+
+  <div class="card">
+    <h2>Subscriptions</h2>
+    <ul id="list"></ul>
   </div>
 
-  <div class="grid">
-
-    <div class="card">
-      <h2>Subscriptions</h2>
-      <ul id="list"></ul>
-    </div>
-
-    <div class="card">
-      <h2>Smart Suggestions</h2>
-      <ul id="suggestions"></ul>
-    </div>
-
-    <div class="card">
-      <h2>Expense Chart</h2>
-      <canvas id="myChart"></canvas>
-    </div>
-
+  <div class="card">
+    <h2>Smart Suggestions</h2>
+    <ul id="suggestions"></ul>
   </div>
 
-  <script src="hack.js"></script>
+  <div class="card">
+    <h2>Expense Chart</h2>
+    <canvas id="myChart"></canvas>
+  </div>
+
+</div>
+
+<script src="hack.js"></script>
 
 </body>
 </html>
