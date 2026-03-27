@@ -1,25 +1,61 @@
-
-
-
 body {
-  font-family: Arial;
-  background: #f4f4f4;
+  margin: 0;
+  font-family: 'Segoe UI', sans-serif;
+  background: linear-gradient(to right, #0f2027, #203a43, #2c5364);
+  color: white;
   text-align: center;
 }
 
-h1 {
-  background: #333;
-  color: white;
-  padding: 15px;
+.top-card {
+  margin: 20px auto;
+  width: 80%;
+  padding: 25px;
+  border-radius: 15px;
+  background: linear-gradient(45deg, #00c6ff, #0072ff);
+  color: black;
+  font-size: 24px;
+  box-shadow: 0 8px 20px rgba(0,0,0,0.4);
+}
+
+/* 🔥 GRID SYSTEM */
+.grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 20px;
+  padding: 20px;
 }
 
 .card {
-  background: white;
-  margin: 20px;
-  padding: 15px;
-  border-radius: 10px;
+  background: rgba(255, 255, 255, 0.1);
+  backdrop-filter: blur(12px);
+  border-radius: 15px;
+  padding: 20px;
+  box-shadow: 0 8px 20px rgba(0,0,0,0.4);
+  transition: 0.3s;
+}
+
+.card:hover {
+  transform: translateY(-5px);
 }
 
 ul {
   list-style: none;
+  padding: 0;
+}
+
+li {
+  padding: 10px;
+  margin: 5px 0;
+  border-radius: 8px;
+  background: rgba(255,255,255,0.1);
+}
+
+.cancel { color: red; }
+.keep { color: lightgreen; }
+.consider { color: orange; }
+
+#myChart {
+  width: 220px !important;
+  height: 220px !important;
+  margin: auto;
 }
