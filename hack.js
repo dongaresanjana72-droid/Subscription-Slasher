@@ -1,76 +1,118 @@
-fetch('data.json')
-.then(res => res.json())
-.then(data => {
+let isSignup = false;
+let chart;
+let data = JSON.parse(localStorage.getItem("subs")) || [];
 
-  let total = 0;
+// TOGGLE LOGIN/SIGNUP
+function toggleForm(){
+  isSignup = !isSignup;
+
+  document.getElementById("formTitle").innerText =
+    isSignup ? "Sign Up" : "Login";
+
+  document.querySelector(".link").innerText =
+    isSignup ? "Already have account? Login" : "Don't have account? Sign Up";
+}
+
+// LOGIN / SIGNUP
+function login(){
+  let user = document.getElementById("user").value;
+  let pass = document.getElementById("pass").value;
+
+  if(!user || !pass){
+    alert("Fill details");
+    return;
+  }
+
+  if(isSignup){
+    localStorage.setItem("user", user);
+    localStorage.setItem("pass", pass);
+    alert("Signup Success! Now Login");
+    toggleForm();
+  } else {
+    let savedUser = localStorage.getItem("user");
+    let savedPass = localStorage.getItem("pass");
+
+    if(user === savedUser && pass === savedPass){
+      document.getElementById("authBox").style.display = "none";
+      document.getElementById("dashboard").style.display = "block";
+      loadDashboard();
+    } else {
+      alert("Wrong credentials");
+    }
+  }
+}
+
+// THEME
+function toggleTheme(){
+  document.body.classList.toggle("light");
+}
+
+// ADD
+function addData(){
+  let name = document.getElementById("name").value;
+  let amount = document.getElementById("amount").value;
+  let usage = document.getElementById("usage").value;
+
+  if(name && amount){
+    data.push({name, amount:Number(amount), usage});
+    localStorage.setItem("subs", JSON.stringify(data));
+    loadDashboard();
+  }
+}
+
+// DELETE
+function deleteData(index){
+  data.splice(index,1);
+  localStorage.setItem("subs", JSON.stringify(data));
+  loadDashboard();
+}
+
+// LOAD DASHBOARD
+function loadDashboard(){
 
   let list = document.getElementById("list");
   let suggestions = document.getElementById("suggestions");
 
+  list.innerHTML = "";
+  suggestions.innerHTML = "";
+
+  let total = 0;
   let names = [];
   let prices = [];
 
-  data.forEach(item => {
-
+  data.forEach((item,i)=>{
     total += item.amount;
 
-    // List
     let li = document.createElement("li");
-    li.innerText = item.name + " ₹" + item.amount;
+    li.innerHTML = item.name + " ₹" + item.amount +
+      ` <button onclick="deleteData(${i})">❌</button>`;
     list.appendChild(li);
 
-    // Suggestions
+    let cls = item.usage==="low"?"cancel":item.usage==="medium"?"consider":"keep";
+    let text = item.usage==="low"?"Cancel":item.usage==="medium"?"Consider":"Keep";
+
     let sug = document.createElement("li");
-
-    let text = "";
-    let cls = "";
-
-    if(item.usage === "low"){
-      text = "❌ Cancel";
-      cls = "cancel";
-    } else if(item.usage === "medium"){
-      text = "⚠️ Consider";
-      cls = "consider";
-    } else {
-      text = "✅ Keep";
-      cls = "keep";
-    }
-
-    sug.innerHTML = item.name + " → <span class='"+cls+"'>" + text + "</span>";
+    sug.innerHTML = item.name + " → <span class='"+cls+"'>"+text+"</span>";
     suggestions.appendChild(sug);
 
     names.push(item.name);
     prices.push(item.amount);
   });
 
-  // Animated Total
-  let count = 0;
-  let interval = setInterval(()=>{
-    count += Math.ceil(total/30);
-    if(count >= total){
-      count = total;
-      clearInterval(interval);
-    }
-    document.getElementById("total").innerText = count;
-  },30);
+  document.getElementById("total").innerText = total;
 
-  // Chart
-  new Chart(document.getElementById("myChart"), {
-    type: 'doughnut',
-    data: {
-      labels: names,
-      datasets: [{
-        data: prices,
-        backgroundColor: ['#ff00f7','#00f0ff','#00ff99','#ffc107']
+  // FIXED CHART
+  if(chart){
+    chart.destroy();
+  }
+
+  chart = new Chart(document.getElementById("myChart"), {
+    type:'doughnut',
+    data:{
+      labels:names,
+      datasets:[{
+        data:prices
       }]
-    },
-    options: {
-      plugins: {
-        legend: {
-          labels: { color: "white" }
-        }
-      }
     }
   });
-
-});
+}
