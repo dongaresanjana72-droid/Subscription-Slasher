@@ -1,97 +1,76 @@
 fetch('data.json')
-  .then(res => res.json())
-  .then(data => {
+.then(res => res.json())
+.then(data => {
 
-    let map = {};
+  let total = 0;
 
-    data.forEach(item => {
-      if (!map[item.name]) {
-        map[item.name] = {
-          name: item.name,
-          total: 0,
-          count: 0,
-          usage: item.usage || "medium"
-        };
-      }
+  let list = document.getElementById("list");
+  let suggestions = document.getElementById("suggestions");
 
-      map[item.name].total += item.amount;
-      map[item.name].count++;
-    });
+  let names = [];
+  let prices = [];
 
-    let subscriptions = [];
-    let totalCost = 0;
+  data.forEach(item => {
 
-    for (let key in map) {
-      if (map[key].count > 1) {
-        subscriptions.push(map[key]);
-        totalCost += map[key].total;
-      }
+    total += item.amount;
+
+    // List
+    let li = document.createElement("li");
+    li.innerText = item.name + " ₹" + item.amount;
+    list.appendChild(li);
+
+    // Suggestions
+    let sug = document.createElement("li");
+
+    let text = "";
+    let cls = "";
+
+    if(item.usage === "low"){
+      text = "❌ Cancel";
+      cls = "cancel";
+    } else if(item.usage === "medium"){
+      text = "⚠️ Consider";
+      cls = "consider";
+    } else {
+      text = "✅ Keep";
+      cls = "keep";
     }
 
-    // 👉 Total
-    document.getElementById("total").innerText = "₹" + totalCost;
+    sug.innerHTML = item.name + " → <span class='"+cls+"'>" + text + "</span>";
+    suggestions.appendChild(sug);
 
-    // 👉 List
-    let list = document.getElementById("list");
-    list.innerHTML = "";
+    names.push(item.name);
+    prices.push(item.amount);
+  });
 
-    // 👉 Suggestions
-    let suggestionList = document.getElementById("suggestions");
-    suggestionList.innerHTML = "";
+  // Animated Total
+  let count = 0;
+  let interval = setInterval(()=>{
+    count += Math.ceil(total/30);
+    if(count >= total){
+      count = total;
+      clearInterval(interval);
+    }
+    document.getElementById("total").innerText = count;
+  },30);
 
-    subscriptions.forEach(sub => {
-
-      // List
-      let li = document.createElement("li");
-      li.innerText = sub.name + " - ₹" + sub.total;
-      list.appendChild(li);
-
-      // Suggestion Logic
-      let suggestion = "";
-      let className = "";
-
-      if (sub.usage === "low") {
-        suggestion = "❌ Cancel";
-        className = "cancel";
-      } else if (sub.usage === "medium") {
-        suggestion = "⚠️ Consider";
-        className = "consider";
-      } else {
-        suggestion = "✅ Keep";
-        className = "keep";
-      }
-
-      let sug = document.createElement("li");
-      sug.innerHTML = `${sub.name} → <span class="${className}">${suggestion}</span>`;
-      suggestionList.appendChild(sug);
-    });
-
-    // 👉 Chart
-    let names = subscriptions.map(s => s.name);
-    let prices = subscriptions.map(s => s.total);
-
-    const ctx = document.getElementById('myChart');
-
-    new Chart(ctx, {
-      type: 'doughnut',
-      data: {
-        labels: names,
-        datasets: [{
-          data: prices,
-          backgroundColor: ['#E50914', '#1DB954', '#f39c12', '#3498db']
-        }]
-      },
-      options: {
-        responsive: true,
-        maintainAspectRatio: false,
-        plugins: {
-          legend: {
-            labels: {
-              color: 'white'
-            }
-          }
+  // Chart
+  new Chart(document.getElementById("myChart"), {
+    type: 'doughnut',
+    data: {
+      labels: names,
+      datasets: [{
+        data: prices,
+        backgroundColor: ['#ff00f7','#00f0ff','#00ff99','#ffc107']
+      }]
+    },
+    options: {
+      plugins: {
+        legend: {
+          labels: { color: "white" }
         }
       }
-    });
-
+    }
   });
+
+});
